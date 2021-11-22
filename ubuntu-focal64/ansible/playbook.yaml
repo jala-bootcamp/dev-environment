@@ -3,8 +3,9 @@
   become: true
   gather_facts: true
   vars_files:
-    - vars/defaults.yml
-    - vars/users.yml
+    - vars/defaults.yaml
+    - vars/users.yaml
+    - vars/auth_users.yaml
   pre_tasks:
     - name: Install required system packages
       apt: name={{ item }} state=latest update_cache=yes

@@ -1,0 +1,15 @@
+---
+
+BASE_GROUPS:
+  - group: admin
+    gid: 3000
+
+BASE_USERS:
+  - user: sergio.rodriguez
+    groups: admins
+    ssh_key: ""
+
+SERVICE_USERS:
+  - user: jenkins
+    groups: docker
+    ssh_key: ""
