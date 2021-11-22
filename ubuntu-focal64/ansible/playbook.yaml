@@ -1,0 +1,28 @@
+---
+- hosts: all
+  become: true
+  gather_facts: true
+  vars_files:
+    - vars/defaults.yml
+    - vars/users.yml
+  pre_tasks:
+    - name: Install required system packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop:
+        - curl
+        - htop
+        - python3
+        - python3-pip
+        - unzip
+        - avahi-daemon
+        - libnss-mdns
+        - default-jre
+  tasks:
+    - name: Install docker lib and compose
+      pip: name={{ item }} state=latest
+      loop: ['docker', 'docker-compose']
+  roles:
+    # - {role: common/users, tags: ['users']}
+    # - {role: common/docker, tags: ['docker']}
+    # - {role: riemers.gitlab-runner, tags: ['runner']}
+    # - {role: common/packer, tags: ['runner', 'packer']}
