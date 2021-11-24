@@ -1,0 +1,72 @@
+---
+- name: Install 
+  hosts: all
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Update Repositories
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 3600
+
+    - name: Install packages
+      apt:
+        state: present
+        name:
+          - htop
+          - python3-pip
+          - avahi-daemon
+          - libnss-mdns
+          - default-jre
+
+    - name: Update pip
+      pip:
+        name: pip
+        state: latest
+
+    - name: Install docker, docker-compose
+      pip:
+        name: 
+          - docker
+          - docker-compose
+    
+    - name: Create Jenkins User
+      user:
+        name: jenkins
+        groups: users
+        state: present
+        shell: /bin/shell
+        create_home: yes
+
+    - name: Create ssh directory
+      file:
+        path: /home/jenkins/.ssh
+        state: directory
+        mode: 700
+    
+    - name: Copy key
+      template:
+        src: vagrant-master-node.pub 
+        dest: /home/jenkins/.ssh/authorized_keys
+
+    - name: Change Permissions
+      file:
+        path: /home/jenkins/.ssh/authorized_keys
+        mode: 600
+    
+    - name: Change Ownership
+      file:
+        path: /home/jenkins/.ssh
+        owner: jenkins
+        recurse: yes
+        # apt-get update
+        # apt-get install -y htop python3-pip avahi-daemon libnss-mdns default-jre
+        # pip3 install --upgrade pip
+        # pip3 install docker docker-compose
+        # useradd -m -G users -s /bin/bash jenkins
+        # mkdir -p /home/jenkins/.ssh
+        # chmod 700 /home/jenkins/.ssh
+        # cat /vagrant/vagrant-master-node.pub > /home/jenkins/.ssh/authorized_keys
+        # chmod 600 /home/jenkins/.ssh/authorized_keys
+        # chown -R jenkins:jenkins /home/jenkins/.ssh
