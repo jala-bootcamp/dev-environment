@@ -34,7 +34,7 @@
     - name: Create Jenkins User
       user:
         name: jenkins
-        groups: users
+        groups: users, docker
         state: present
         shell: /bin/shell
         create_home: yes
@@ -45,10 +45,19 @@
         state: directory
         mode: 700
     
+    # - name: Generate Key
+    #   openssh_keypair:
+    #     path: ./vagrant_key
+    #     delegate_to: 127.0.0.1
+    #   tags: generate_key
+
     - name: Copy key
-      template:
-        src: vagrant-master-node.pub 
-        dest: /home/jenkins/.ssh/authorized_keys
+      authorized_key:
+        user: jenkins
+        state: present
+        key: "{{ lookup('file', './vagrant-master-node.pub') }}"
+        # src: vagrant-master-node.pub 
+        # dest: /home/jenkins/.ssh/authorized_keys
 
     - name: Change Permissions
       file:
