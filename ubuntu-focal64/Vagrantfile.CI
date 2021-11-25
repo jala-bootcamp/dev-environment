@@ -36,17 +36,9 @@ Vagrant.configure("2") do |config|
 
   # Install avahi on all machines
   config.vm.provision :docker
-  config.vm.provision "shell", inline: <<-SHELL
-    apt-get update
-    apt-get install -y htop python3-pip avahi-daemon libnss-mdns default-jre
-    pip3 install --upgrade pip
-    pip3 install docker docker-compose
-    useradd -m -G users -s /bin/bash jenkins
-    mkdir -p /home/jenkins/.ssh
-    chmod 700 /home/jenkins/.ssh
-    cat /vagrant/vagrant-master-node.pub > /home/jenkins/.ssh/authorized_keys
-    chmod 600 /home/jenkins/.ssh/authorized_keys
-    chown -R jenkins:jenkins /home/jenkins/.ssh
-    gpasswd -a jenkins docker
-  SHELL
+  config.vm.provision "ansible" do |ansible|
+    ansible.verbose = "v"
+    ansible.tags = "packer"
+    ansible.playbook = "playbook.yml"
+  end
 end

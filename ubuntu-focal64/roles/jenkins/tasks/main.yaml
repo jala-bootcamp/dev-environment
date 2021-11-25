@@ -1,0 +1,31 @@
+---
+- name: Create Jenkins User
+  user:
+    name: jenkins
+    groups: users, docker
+    state: present
+    shell: /bin/shell
+    create_home: yes
+
+- name: Create ssh directory
+  file:
+    path: /home/jenkins/.ssh
+    state: directory
+    mode: 700
+
+- name: Copy key
+  authorized_key:
+    user: jenkins
+    state: present
+    key: "{{ lookup('file', './vagrant-master-node.pub') }}"
+
+- name: Change Permissions
+  file:
+    path: /home/jenkins/.ssh/authorized_keys
+    mode: 600
+
+- name: Change Ownership
+  file:
+    path: /home/jenkins/.ssh
+    owner: jenkins
+    recurse: yes
