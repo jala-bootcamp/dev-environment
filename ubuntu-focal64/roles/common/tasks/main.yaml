@@ -14,6 +14,7 @@
       - avahi-daemon
       - libnss-mdns
       - default-jre
+      - net-tools
 
 - name: Update pip
   pip:

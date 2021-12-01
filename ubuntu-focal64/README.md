@@ -21,6 +21,14 @@ Go to the directory where the `Vagrantfile` files are and execute the following 
 VAGRANT_VAGRANTFILE=Vagrantfile.CI vagrant up
 ```
 
+## Jenkins
+
+[To set up user permissions](https://www.guru99.com/create-users-manage-permissions.html)
+[Create an API token](https://newbedev.com/how-to-get-the-api-token-for-jenkins)
+[Automate Plugins Installation](https://github.com/jenkinsci/docker/#preinstalling-plugins)
+[Jenkins Infrastructure as Code](https://www.jenkins.io/projects/jcasc/)
+[Role Based Auth - Jenkins CasC](https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos/role-strategy-auth)
+
 ## Notes
 
 - Make sure the image is being downloaded to a hard disk.
