@@ -6,7 +6,7 @@
 
   roles:
     - { role: common, tags: common }
-    - { role: docker, tags: docker }
+    # - { role: docker, tags: docker }
     - { role: jenkins, tags: jenkins }
     # - { role: ansible-common-roles/packer, tags: packer }
 
